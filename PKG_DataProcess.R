@@ -139,7 +139,7 @@ dbDisconnect(stuffDB)
 #### PKG Completion Data
 ###############################################################
 rm(list=ls())
-setwd("C:/Users/Sid/Documents/R/Projects/PKG_Data_Project")
+setwd("C:/Users/Sid/Documents/R/Projects/PKGDataProject/PKGData")
 library(data.table)
 
 ############################## Merge Demographic Data from Final Registration Table
@@ -198,6 +198,8 @@ tableLegacy = readRDS(file='./csvData/PKG_Completion_Data_Legacy_5_8_2022.RDS')
 
 ### Merge Old and New Data
 tableComplete = rbind(tableLegacy,tableComplete)
+tableComplete[,Race:=unlist(Race)]
+tableComplete[,Gender:=unlist(Gender)]
 
 #### Save Data for backup
 timeString = gsub(" ","_",Sys.time())
@@ -212,7 +214,7 @@ tableRegistrarComp = tableRegistrarComp[order(PKGProgram,ProgramYear),]
 write.csv(tableRegistrarComp,file=paste('./processedData/RegistrarData_Completion.csv'))
 
 ####### Push Data to PKG Web Portal
-
+library(RMariaDB)
 db_user <- 'pkgdata'
 db_password <- 'sox58kir'
 db_name <- 'pkgdata+registrationData'
