@@ -57,6 +57,20 @@ table$UID = 1329:(1329+length(table$TimeStamp)-1)
 ### Merge Old and New Data
 tableFullFinal = rbind(legacyReg,table)
 
+
+### QA - QC with duplicate program names
+tableFullFinal[PKGProgram=='SP.256',PKGProgram:='SP.256 Informed Philanthropy in Theory and Action']
+tableFullFinal[PKGProgram=='SP.250',PKGProgram:='SP.250 Transforming Good Intentions into Good Outcomes']
+tableFullFinal[PKGProgram=='Fellowships',PKGProgram:='PKG Fellowships Program']
+tableFullFinal[PKGProgram=='IDEAS',PKGProgram:='IDEAS Social Innovation Challenge']
+tableFullFinal[PKGProgram=='Internships',PKGProgram:='Social Impact Internships']
+tableFullFinal[PKGProgram=='Work Study',PKGProgram:='Community Based Federal Work Study']
+tableFullFinal[PKGProgram=='CIFI',PKGProgram:='Community-Informed Field Immersion (CIFI)']
+tableFullFinal[PKGProgram=='ACE',PKGProgram:='Active Community Engagement (ACE)']
+tableFullFinal[PKGProgram=='Connect',PKGProgram:='Summer Immersion: PKG Connect']
+tableFullFinal[PKGProgram=='IDEAS Events',PKGProgram:='IDEAS Workshops and Events']
+tableFullFinal = tableFullFinal[PKGProgram!='Unknown']
+
 #### Save Data for backup
 timeString = gsub(" ","_",Sys.time())
 timeString = gsub(":","_",timeString)
@@ -200,6 +214,20 @@ tableLegacy = readRDS(file='./csvData/PKG_Completion_Data_Legacy_5_8_2022.RDS')
 tableComplete = rbind(tableLegacy,tableComplete)
 tableComplete[,Race:=unlist(Race)]
 tableComplete[,Gender:=unlist(Gender)]
+
+### QA - QC
+tableComplete[PKGProgram=='SP.251',PKGProgram:='SP.251 How to Change the World: Experiences from Social Entrepreneurs (In partnership with SOLVE)']
+tableComplete[PKGProgram=='SP.250',PKGProgram:='SP.250 Transforming Good Intentions into Good Outcomes']
+tableComplete[PKGProgram=='Fellowships',PKGProgram:='PKG Fellowships Program']
+tableComplete[PKGProgram=='IDEAS',PKGProgram:='IDEAS Social Innovation Challenge']
+tableComplete[PKGProgram=='Internships',PKGProgram:='Social Impact Internships']
+tableComplete[PKGProgram=='Work Study',PKGProgram:='Community Based Federal Work Study']
+tableComplete[PKGProgram=='CIFI',PKGProgram:='Community-Informed Field Immersion (CIFI)']
+tableComplete[PKGProgram=='ACE',PKGProgram:='Active Community Engagement (ACE)']
+tableComplete[PKGProgram=='Connect',PKGProgram:='Summer Immersion: PKG Connect']
+tableComplete[PKGProgram=='IDEAS Events',PKGProgram:='IDEAS Workshops and Events']
+tableComplete = tableComplete[PKGProgram!='Unknown']
+
 
 #### Save Data for backup
 timeString = gsub(" ","_",Sys.time())
