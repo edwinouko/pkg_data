@@ -1,7 +1,6 @@
 rm(list=ls())
 #set origin using setwd() or cd into the right directory
 library(data.table)
-#Exit survey data: https://docs.google.com/spreadsheets/d/12DeIuTTsHo2PH_W7NKVgsPEKqZHqOw6TnXDzNTG7poc/edit?resourcekey#gid=91328158
 
 #Merge demographic data from Final Registration Table
 table = readRDS(file='./processedData/PKG_Registration_Data_MostRecent.RDS')
@@ -68,10 +67,10 @@ tableComplete[,Gender:=mapply(getGender,MIT_ID)]
 #             incorporate_social_change_effort_academics_agree=NA, incorporate_social_change_effort_career_agree=NA, effect_motivation_social_change=NA, 
 #             associate_name_feedback=NA)]
 
-# ### Merge Old and New Data
+# # ### Merge Old and New Data
 # tableComplete = rbind(tableLegacy,tableComplete)
-tableComplete[,Race:=unlist(Race)]
-tableComplete[,Gender:=unlist(Gender)]
+# tableComplete[,Race:=unlist(Race)]
+# tableComplete[,Gender:=unlist(Gender)]
 
 ### QA - QC
 tableComplete[PKGProgram=='SP.251',PKGProgram:='SP.251 How to Change the World: Experiences from Social Entrepreneurs (In partnership with SOLVE)']
@@ -108,15 +107,51 @@ db_name <- 'pkgdata+registrationData'
 db_table <- 'CompletionData'
 db_host <- 'sql.mit.edu' 
 
-
-# Connecting to MySQL DB
 stuffDB <- dbConnect(MariaDB(), user = db_user, password = db_password, dbname = db_name, host = db_host)
-
-# List tables in DB
-dbListTables(stuffDB)
 
 # Write to Database
 dbWriteTable(stuffDB, value = tableComplete, row.names = FALSE, name = db_table, overwrite = FALSE, append=TRUE)
+
+# dbWriteTable(stuffDB, value = tableComplete, row.names = FALSE, name = db_table, field.types = c(`TimeStamp`="varchar(200)",
+#                                                                                                  `MIT_ID`="varchar(200)",
+#                                                                                                  `Email`="varchar(200)",
+#                                                                                                  `PKGProgram`="varchar(200)",
+#                                                                                                  `LearningFeedback`="text",
+#                                                                                                  `Q1Contribute_SI`="varchar(200)",
+#                                                                                                  `Q1Contribute_USC`="varchar(200)",
+#                                                                                                  `Q1Contribute_Skill`="varchar(200)",
+#                                                                                                  `Q1Contribute_Network`="varchar(200)",
+#                                                                                                  `Q1Contribute_Res`="varchar(200)",
+#                                                                                                  `Q2Interest_Context`="varchar(200)",
+#                                                                                                  `Q2Interest_USC`="varchar(200)",
+#                                                                                                  `Q2Interest_Skill`="varchar(200)",
+#                                                                                                  `Q2Interest_Res`="varchar(200)",
+#                                                                                                  `Q2Interest_Network`="varchar(200)",
+#                                                                                                  `Q3Equip_Vol`="varchar(200)",
+#                                                                                                  `Q3Equip_Community`="varchar(200)",
+#                                                                                                  `Q3Equip_Career`="varchar(200)",
+#                                                                                                  `PKG_Ambassador`="varchar(200)",
+#                                                                                                  `OptionalFeedback`="text",
+#                                                                                                  `ProgramSem`="varchar(200)",
+#                                                                                                  `ProgramYear`="varchar(200)",
+#                                                                                                  `FirstName`="varchar(200)",
+#                                                                                                  `LastName`="varchar(200)",                                                                            
+#                                                                                                  `StudentType`="varchar(200)",
+#                                                                                                  `Department`="varchar(200)",
+#                                                                                                  `Race`="varchar(200)",
+#                                                                                                  `Gender`="varchar(200)",                                                                                                                     
+#                                                                                                  `better_understanding_agree`="varchar(200)",                     
+#                                                                                                   `effect_understanding_social_issues`="varchar(200)",             
+#                                                                                                   `gain_skills_social_change_agree`= "varchar(200)",                 
+#                                                                                                   `confidence_influencing_social_change_agree`= "varchar(200)",      
+#                                                                                                   `effect_confidence_influencing_social_change`= "varchar(200)",     
+#                                                                                                   `inspired_knowledge_forsocial_change_agree`= "varchar(200)",       
+#                                                                                                   `incorporate_social_change_effort_academics_agree`= "varchar(200)",
+#                                                                                                   `incorporate_social_change_effort_career_agree`= "varchar(200)",
+#                                                                                                   `effect_motivation_social_change`= "varchar(200)",                 
+#                                                                                                   `associate_name_feedback`= "varchar(200)"),
+#                                                                                   overwrite = TRUE)
+
 
 #Close connection
 dbDisconnect(stuffDB)
