@@ -1,5 +1,5 @@
 rm(list=ls())
-setwd("~/Desktop/PKGData")
+#setwd("~/Desktop/PKGData")
 library(data.table)
 
 ############################################################################
@@ -8,13 +8,6 @@ library(data.table)
 # Registration - 
 # Completion - 
 
-
-############################################################################
-####  Also include legacy data from old forms (no need to update these)
-############################################################################
-
-# PKG Student Quick Registration_Legacy_Data.csv
-# FY21_Legacy_Data_Collection.csv
 
 ###############################################################
 #### PKG Registration Data

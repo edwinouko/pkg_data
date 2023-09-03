@@ -30,7 +30,6 @@ for i in range(len(es)):
             row[col] = ""
     combined_df = combined_df.append(row, ignore_index=True)
 
-print(other_cols)
 combined_df.to_csv("combined_completion.csv", index=False)
 
 #To add the lines below
@@ -39,5 +38,4 @@ all = ["better_understanding_agree", "effect_understanding_social_issues", "gain
         "incorporate_social_change_effort_academics_agree", "incorporate_social_change_effort_career_agree", "effect_motivation_social_change", 
         "associate_name_feedback"
        ]
-
 
