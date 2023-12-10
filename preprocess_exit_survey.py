@@ -32,10 +32,5 @@ for i in range(len(es)):
 
 combined_df.to_csv("combined_completion.csv", index=False)
 
-#To add the lines below
-all = ["better_understanding_agree", "effect_understanding_social_issues", "gain_skills_social_change_agree", 
-       "confidence_influencing_social_change_agree", "effect_confidence_influencing_social_change", "inspired_knowledge_forsocial_change_agree",
-        "incorporate_social_change_effort_academics_agree", "incorporate_social_change_effort_career_agree", "effect_motivation_social_change", 
-        "associate_name_feedback"
-       ]
+
 

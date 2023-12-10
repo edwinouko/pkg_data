@@ -2,17 +2,6 @@ rm(list=ls())
 #setwd("~/Desktop/PKGData")
 library(data.table)
 
-############################################################################
-####  Download Updated Google Form Data and save in ./csvData 
-############################################################################
-# Registration - 
-# Completion - 
-
-
-###############################################################
-#### PKG Registration Data
-###############################################################
-
 ### Get old data, up to 5/8/2022
 legacyReg = readRDS('./csvData/PKG_Registration_Data_Legacy_5_8_2022.RDS')
 
@@ -74,9 +63,7 @@ tableRegistrar = tableRegistrar[Email %like% "mit.edu",]
 tableRegistrar = tableRegistrar[order(PKGProgram,ProgramYear),]
 write.csv(tableRegistrar,file=paste('./processedData/RegistrarData_Registration.csv'))
 
-###############################################################
-#### Push Registration Data to PKG Web Portal
-###############################################################
+##Push Registration Data to PKG Web Portal
 
 library(RMariaDB)
 db_user <- 'pkgdata'
@@ -125,9 +112,9 @@ dbWriteTable(stuffDB, value = tableFullFinal[1:500], row.names = FALSE, name = "
 dbWriteTable(stuffDB, value = tableFullFinal[501:1000], row.names = FALSE, name = "Registration", overwrite = FALSE, append = TRUE)
 dbWriteTable(stuffDB, value = tableFullFinal[1001:length(tableFullFinal$TimeStamp)], row.names = FALSE, name = "Registration", overwrite = FALSE, append = TRUE)
 
-################### Send MetaData 
+##Send MetaData 
 metaTable = data.table(UpdateTime=as.character(Sys.time()))
 dbWriteTable(stuffDB, value = metaTable, row.names = FALSE, name = "MetaData", overwrite = TRUE)
 
-#Close connection
+##Close connection
 dbDisconnect(stuffDB)
